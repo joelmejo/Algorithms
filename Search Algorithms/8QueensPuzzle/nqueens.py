@@ -56,28 +56,31 @@ def check_diagonal(row: int, column: int, chess_board: list[list[int]], chess_bo
             if chess_board[row_up][column_left] == 1:
                 return False
         # diagonale destra alto
-        if column_right <= chess_board_lenght and row_up >= 0:
+        if column_right < chess_board_lenght and row_up >= 0:
             if chess_board[row_up][column_right] == 1:
                 return False
     return True
 
 
 # recursive function to position the queens on the chess_board
-def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_positioned: dict[tuple[int]], columns_in_use: dict, visited_positions: dict[list[tuple]]):
+def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_positioned: dict[tuple[int]], columns_in_use: dict, visited_positions: dict[list[tuple]], results: list[list[list[int]]]):
     # knowing that the queen is positioned row by row, we can start from the row next to the last queen positioned
-    for row in range((queens_positioned[len(queens_positioned) - 1[0]] + 1),chess_board_lenght):
+    for row in range((queens_positioned[len(queens_positioned) - 1][0] + 1), chess_board_lenght):
+
         # DEPRECATED
         # # if the row is already in use, then skip it
         # if rows_in_use[row] == True:
         #     continue
+        
         for column in range(chess_board_lenght):
             # if the column is already in use, then skip it
             if columns_in_use[column] == True:
                 continue
 
             # if the position is already visited, then skip this position
-            if [row, column] in visited_positions[len(queens_positioned)]: 
-                continue
+            if len(queens_positioned) in visited_positions:
+                if (row, column) in visited_positions[len(queens_positioned)]: 
+                    continue
             # if the diagonal is not safe, then skip this position
             if not check_diagonal(row, column, chess_board, chess_board_lenght):
                 continue
@@ -97,11 +100,19 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
                     columns_in_use[column] = True
 
                     # append new queen positioned on the chess_board to the visited_positions dictionary
-                    visited_positions[len(queens_positioned)].append((row, column))
+                    if (len(queens_positioned) - 1) not in visited_positions:
+                        visited_positions[len(queens_positioned) - 1] = []
+                    visited_positions[len(queens_positioned) - 1].append((row, column))
 
                     # recursive call to the function
-                    recursive_dfs(chess_board, chess_board_lenght)
+                    recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
+            
+        # if we have not found a position safe for the new queen in this row we have to backtrack
+        else:
+            break
 
+    if len(queens_positioned) == chess_board_lenght:
+        return chess_board.copy()
     # if we have not found a position safe for the new queen, then we have to backtrack
     
     # remove the last queen positioned from the chess_board
@@ -130,11 +141,11 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
                 # tried 0 1 2 3 4 5 6 7 len 8
     if len(queens_positioned) > 0:
         # recursive call to the function
-        recursive_dfs(chess_board, chess_board_lenght)
+        recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
     else:
         return None
 
-def n_queens_puzzle(n: int):
+def n_queens_puzzle(n: int, results: list):
     
     #############################################################
     # COLLECTIONS TO STORE ESSENTIAL DATA UNTIL A RESULT IS FOUND
@@ -151,14 +162,14 @@ def n_queens_puzzle(n: int):
     queens_positioned: dict[tuple[int]] = {}
 
     # dictionary to store the visited positions of the queens in use, and of the next queen that we have already visited
-    visited_positions: dict[list[tuple]] = {0: []}
+    visited_positions: dict[list[tuple]] = {}
     
     
     # cicle to position the first queen
     for row in range(n):
         for column in range(n):
-            if [row, column] in visited_positions[0]:
-                continue
+            # if [row, column] in visited_positions[0]:
+            #     continue
 
             # add the queen to the chess_board
             chess_board[row][column] = 1
@@ -167,17 +178,20 @@ def n_queens_puzzle(n: int):
             queens_positioned[0] = (row, column)
 
             # append new first queen positioned on the chess_board to the visited_positions dictionary
-            visited_positions[0].append((row, column))
+            # visited_positions[0].append((row, column))
 
             # change the status of the row and column in in_use dictionaryies
             # rows_in_use[row] = True
             columns_in_use[column] = True
 
             # call to the recursive function
-            result = recursive_dfs(chess_board, n, queens_positioned, columns_in_use, visited_positions)
+            result = recursive_dfs(chess_board, n, queens_positioned, columns_in_use, visited_positions, results)
 
             if result != None:
                 results.append(result)
+                return
     
             
-n_queens_puzzle(8)
+n_queens_puzzle(8, results)
+for row in results[0]:
+    print(row)
