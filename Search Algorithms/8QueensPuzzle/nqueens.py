@@ -129,16 +129,16 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
     if (len(queens_positioned) + 1) in visited_positions:
         visited_positions.pop(len(queens_positioned) + 1)
     
-                # 0 1 2 3 4 5 6 7 8 len 9
-            # tried 0 1 2 3 4 5 6 7 8 len 10
-                # rimuovo l'ultima posizione provata
-                # 0 1 2 3 4 5 6 7 len 8
-            # tried 0 1 2 3 4 5 6 7 8 len 10
-                # rimuovo l'ultima posizione provata
-                # 0 1 2 3 4 5 6 len 7
-                # quindi len 7 + 1 = 8
-                # elimino la 8ava regina da tried
-                # tried 0 1 2 3 4 5 6 7 len 8
+            # 0 1 2 3 4 5 6 7 8 len 9
+        # tried 0 1 2 3 4 5 6 7 8 len 10
+            # rimuovo l'ultima posizione provata
+            # 0 1 2 3 4 5 6 7 len 8
+        # tried 0 1 2 3 4 5 6 7 8 len 10
+            # rimuovo l'ultima posizione provata
+            # 0 1 2 3 4 5 6 len 7
+            # quindi len 7 + 1 = 8
+            # elimino la 8ava regina da tried
+            # tried 0 1 2 3 4 5 6 7 len 8
     if len(queens_positioned) > 0:
         # recursive call to the function
         recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
