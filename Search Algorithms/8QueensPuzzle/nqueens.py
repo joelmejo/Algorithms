@@ -34,7 +34,9 @@
 # RESULTS
 
 # list to store the results
-results: list= []
+results: list = []
+
+results_queens: list = []
 
 
 #############################################################
@@ -112,7 +114,7 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
             break
 
     if len(queens_positioned) == chess_board_lenght:
-        return chess_board.copy()
+        return chess_board.copy(), queens_positioned.copy()
     # if we have not found a position safe for the new queen, then we have to backtrack
     
     # remove the last queen positioned from the chess_board
@@ -143,9 +145,9 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
         # recursive call to the function
         recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
     else:
-        return None
+        return None, None
 
-def n_queens_puzzle(n: int, results: list):
+def n_queens_puzzle(n: int, results: list[list[int]], results_queens: list[dict[tuple[int]]]):
     
     #############################################################
     # COLLECTIONS TO STORE ESSENTIAL DATA UNTIL A RESULT IS FOUND
@@ -185,13 +187,16 @@ def n_queens_puzzle(n: int, results: list):
             columns_in_use[column] = True
 
             # call to the recursive function
-            result = recursive_dfs(chess_board, n, queens_positioned, columns_in_use, visited_positions, results)
+            result, result_queens = recursive_dfs(chess_board, n, queens_positioned, columns_in_use, visited_positions, results)
 
             if result != None:
                 results.append(result)
+                results_queens.append(result_queens)
                 return
     
-            
-n_queens_puzzle(8, results)
-for row in results[0]:
-    print(row)
+while len(results) < 92:
+    n_queens_puzzle(8, results, results_queens)
+
+for result in results[0]:
+    for row in result:
+        print(row)
