@@ -65,7 +65,7 @@ def check_diagonal(row: int, column: int, chess_board: list[list[int]], chess_bo
 
 
 # recursive function to position the queens on the chess_board
-def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_positioned: dict[tuple[int]], columns_in_use: dict, visited_positions: dict[list[tuple]], results: list[list[list[int]]]):
+def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_positioned: dict[tuple[int]], columns_in_use: dict, visited_positions: dict[list[tuple]], results_queens: list[tuple[int]]):
     # knowing that the queen is positioned row by row, we can start from the row next to the last queen positioned
     for row in range((queens_positioned[len(queens_positioned) - 1][0] + 1), chess_board_lenght):
 
@@ -107,14 +107,15 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
                     visited_positions[len(queens_positioned) - 1].append((row, column))
 
                     # recursive call to the function
-                    recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
+                    recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results_queens)
             
         # if we have not found a position safe for the new queen in this row we have to backtrack
         else:
             break
 
     if len(queens_positioned) == chess_board_lenght:
-        return chess_board.copy(), queens_positioned.copy()
+        if queens_positioned not in results_queens:
+            return chess_board.copy(), queens_positioned.copy()
     # if we have not found a position safe for the new queen, then we have to backtrack
     
     # remove the last queen positioned from the chess_board
@@ -143,7 +144,7 @@ def recursive_dfs(chess_board: list[list[int]], chess_board_lenght: int, queens_
             # tried 0 1 2 3 4 5 6 7 len 8
     if len(queens_positioned) > 0:
         # recursive call to the function
-        recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results)
+        recursive_dfs(chess_board, chess_board_lenght, queens_positioned, columns_in_use, visited_positions, results_queens)
     else:
         return None, None
 
