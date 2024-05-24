@@ -198,6 +198,6 @@ def n_queens_puzzle(n: int, results: list[list[int]], results_queens: list[dict[
 while len(results) < 92:
     n_queens_puzzle(8, results, results_queens)
 
-for result in results[0]:
+for result in results:
     for row in result:
         print(row)
