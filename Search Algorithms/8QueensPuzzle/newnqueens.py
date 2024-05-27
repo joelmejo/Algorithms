@@ -25,10 +25,6 @@
 # ^ * ^ ^ * ^ ^ *
 # * ^ ^ ^ * ^ ^ ^
 
-# quindi si può dedurre che una volta posizionata una donna, non si possono più posizionare altre donne
-#   sulla stessa riga, colonna e diagonali
-
-# quindi si potrebbe creare una lista che contiene tutte le posizioni gia escluse cosi da non ricontrollarle ogni volta
 
 #############################################################
 # FUNCTIONS
