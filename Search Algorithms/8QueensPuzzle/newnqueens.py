@@ -92,56 +92,56 @@ solve()
         
 
 # SOLUZIONE GPT
-# def is_safe(board, row, col):
-#     # Controlla la riga a sinistra
-#     for i in range(col):
-#         if board[row][i] == 1:
-#             return False
+def is_safe(board, row, col):
+    # Controlla la riga a sinistra
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
 
-#     # Controlla la diagonale in alto a sinistra
-#     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-#         if board[i][j] == 1:
-#             return False
+    # Controlla la diagonale in alto a sinistra
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-#     # Controlla la diagonale in basso a sinistra
-#     for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
-#         if board[i][j] == 1:
-#             return False
+    # Controlla la diagonale in basso a sinistra
+    for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-#     return True
+    return True
 
-# def solve_n_queens(board, col, solutions):
-#     # Caso base: se tutte le regine sono piazzate, aggiungi la soluzione alla lista
-#     if col >= len(board):
-#         solutions.append([row[:] for row in board])
-#         return
+def solve_n_queens(board: int, col: int, solutions: list):
+    # Caso base: se tutte le regine sono piazzate, aggiungi la soluzione alla lista
+    if col >= len(board):
+        solutions.append([row[:] for row in board])
+        return
 
-#     # Prova a piazzare una regina in ogni riga di questa colonna
-#     for i in range(len(board)):
-#         if is_safe(board, i, col):
-#             # Piazza la regina
-#             board[i][col] = 1
+    # Prova a piazzare una regina in ogni riga di questa colonna
+    for i in range(len(board)):
+        if is_safe(board, i, col):
+            # Piazza la regina
+            board[i][col] = 1
 
-#             # Ricorsivamente piazza le altre regine
-#             solve_n_queens(board, col + 1, solutions)
+            # Ricorsivamente piazza le altre regine
+            solve_n_queens(board, col + 1, solutions)
 
-#             # Se piazzare la regina non porta a una soluzione, rimuovila (backtrack)
-#             board[i][col] = 0
+            # Se piazzare la regina non porta a una soluzione, rimuovila (backtrack)
+            board[i][col] = 0
 
-# def print_board(board):
-#     for row in board:
-#         print(" ".join("Q" if col == 1 else "." for col in row))
-#     print("\n")
+def print_board(board):
+    for row in board:
+        print(" ".join("Q" if col == 1 else "." for col in row))
+    print("\n")
 
-# def solve():
-#     n = 8
-#     board = [[0] * n for _ in range(n)]
-#     solutions = []
+def solve():
+    n = 8
+    board = [[0] * n for _ in range(n)]
+    solutions = []
 
-#     solve_n_queens(board, 0, solutions)
+    solve_n_queens(board, 0, solutions)
     
-#     print(f"Trovate {len(solutions)} soluzioni.")
-#     for sol in solutions:
-#         print_board(sol)
+    print(f"Trovate {len(solutions)} soluzioni.")
+    for sol in solutions:
+        print_board(sol)
 
-# solve()
+solve()
